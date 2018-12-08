@@ -272,6 +272,126 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="/2018/12/09/记录配置服务器免密登录/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陈晨">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1544133735416&di=e414693a12be3ac5ecdfbee0d2c06a85&imgtype=0&src=http%3A%2F%2Fcdn4.freepik.com%2Fimage%2Fth%2F318-41747.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈晨的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/记录配置服务器免密登录/" itemprop="url">记录配置服务器免密登录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T01:04:30+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Linux免密远程登录<br>1、生成秘钥对<br>ssh-keygen-t rsa -C “你自己的名字” -f “你自己的名字_rsa”<br>2、上传配置公钥<br>上传公钥到服务器对应账号的home路径下的sh/中(ssh-copy-id -i “公钥文件名”用户名@服务器或域名)<br>配置公钥文件访问权限为600<br>3、配置本地私钥<br>把第一步生成的私钥复制到你的home目录下的.ssh/路径下<br>配置你的私钥文件访问权限为600<br>chmod 600 你的私钥文件名<br>4、免密登陆功能的本地配置文件<br>编辑自己home目录的.ssh/路径下的 config文件<br>配置 config文件的访问权限为644</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="/2018/12/08/十分钟完成vscode配合Eslint使用/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -432,7 +552,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
