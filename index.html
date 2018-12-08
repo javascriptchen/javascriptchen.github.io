@@ -343,7 +343,12 @@
       
         
           
-            <p>Linux免密远程登录<br>1、生成秘钥对<br>ssh-keygen-t rsa -C “你自己的名字” -f “你自己的名字_rsa”<br>2、上传配置公钥<br>上传公钥到服务器对应账号的home路径下的sh/中(ssh-copy-id -i “公钥文件名”用户名@服务器或域名)<br>配置公钥文件访问权限为600<br>3、配置本地私钥<br>把第一步生成的私钥复制到你的home目录下的.ssh/路径下<br>配置你的私钥文件访问权限为600<br>chmod 600 你的私钥文件名<br>4、免密登陆功能的本地配置文件<br>编辑自己home目录的.ssh/路径下的 config文件<br>配置 config文件的访问权限为644</p>
+            <p>首先，为什么我们要做服务器的免密登录？<br>1.自己登录服务器方便。</p>
+<p>####2.<strong>最重要是的后期配置自动化部署。</strong><br>下面我们来了解下怎么配置服务器免密登录吧~</p>
+<h3 id="1、生成秘钥对"><a href="#1、生成秘钥对" class="headerlink" title="1、生成秘钥对"></a>1、生成秘钥对</h3><p>ssh-keygen-t rsa -C “你自己的名字” -f “你自己的名字_rsa”</p>
+<h3 id="2、上传配置公钥"><a href="#2、上传配置公钥" class="headerlink" title="2、上传配置公钥"></a>2、上传配置公钥</h3><p>上传公钥到服务器对应账号的home路径下的sh/中(ssh-copy-id -i “公钥文件名”用户名@服务器或域名)<br>配置公钥文件访问权限为600</p>
+<h3 id="3、配置本地私钥"><a href="#3、配置本地私钥" class="headerlink" title="3、配置本地私钥"></a>3、配置本地私钥</h3><p>把第一步生成的私钥复制到你的home目录下的.ssh/路径下<br>配置你的私钥文件访问权限为600<br>chmod 600 你的私钥文件名</p>
+<h3 id="4、免密登陆功能的本地配置文件"><a href="#4、免密登陆功能的本地配置文件" class="headerlink" title="4、免密登陆功能的本地配置文件"></a>4、免密登陆功能的本地配置文件</h3><p>编辑自己home目录的.ssh/路径下的 config文件<br>配置 config文件的访问权限为644<br>下面是我的config配置，登录的时候只需要输入<code>ssh www</code>即可完成登录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host www</span><br><span class="line">    HostName 10.211.55.6</span><br><span class="line">    Port 22</span><br><span class="line">    User root</span><br><span class="line">    IdentityFile  ~/.ssh/id_rsa</span><br><span class="line">    IdentitiesOnly yes</span><br></pre></td></tr></table></figure></p>
 
           
         
