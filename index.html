@@ -420,7 +420,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/14/浏览器缓存机制介绍/" itemprop="url">浏览器缓存机制介绍</a></h1>
+                <a class="post-title-link" href="/2018/12/14/浏览器缓存机制介绍/" itemprop="url">Untitled</a></h1>
         
 
         <div class="post-meta">
@@ -472,7 +472,24 @@
       
         
           
-            
+            <p>var foo = {<br>    value: 1<br>};</p>
+<p>function bar() {<br>    console.log(this.value);<br>}</p>
+<p>bar.call2(foo); // 1浏览器缓存究竟有什么作用呢？在这里我将浏览器缓存的作用简单地归结为以下几点。</p>
+<p>加快页面打开速度<br>降低服务器压力<br>减少网络损耗</p>
+<p>浏览器缓存有 HTML Meta 标签控制（一般不用，所以本文不介绍）与 HTTP 头信息控制两种。</p>
+<p>缓存标识字段便是 <strong>Expires</strong> 和 <strong>Cache-Control</strong>。</p>
+<p><strong>Expires  是服务器端在响应请求时用来规定资源的失效时间。</strong></p>
+<p><strong>Cache-Control 是服务器端在响应请求时用来规定资源是否需要被浏览器缓存以及缓存的有效时间等。</strong></p>
+<p>Expires 是 HTTP 1.0 的字段，而 Cache-Control  是 HTTP 1.1 的字段，<strong>当 Expires  与  Cache-Control 同时存在时，Cache-Control 的优先级要高于  Expires。</strong></p>
+<p>在浏览器缓存中，还保存了其它关于资源副本的描述字段，这些字段都是服务器返回信息头带过来的，如 <strong>Last-Modified</strong> 和 <strong>ETag</strong>。</p>
+<p>Last-Modified 是服务器端在响应请求时用来说明资源的最后修改时间。与之对应的是 If-Modified-Since 字段。在服务器再验证过程中，浏览器发送的 HTTP 请求的请求头中会带上 If-Modified-Since 字段，值为该资源  Last-Modified 属性的值。</p>
+<p>当服务器端接收到带有  If-Modified-Since 属性的请求时，则会将 If-Modified-Since 属性的值与被请求资源的最后修改时间做对比。如果相同，说明资源没有新的修改，则响应 HTTP 304，浏览器会继续使用原先保存的该资源的副本；如果最后修改时间比较新，则说明资源被修改过，则响应 HTTP 200，并且返回最新的资源。</p>
+<p>ETag 是服务器端在响应请求时用来说明资源在服务器端的唯一标识。与之对应的是 If-None-Match 字段。在服务器再验证过程中，浏览器发送的 HTTP 请求的请求头中会带上 If-Modified-Since 字段，值为该资源  Etag 属性的值。</p>
+<p>当服务器端接收到带有  If-None-Match 属性的请求时，则会将 If-None-Match 属性的值与被请求资源的唯一标识做对比。如果相同，说明资源没有新的修改，则响应 HTTP 304，浏览器会继续使用原先保存的该资源的副本；如果不同，则说明资源被修改过，则响应 HTTP 200，并且返回最新的资源。</p>
+<p>那么当 Last-Modified / If-Modified-Since 和 Etag / If-None-Match 同时存在是什么情况呢？</p>
+<p>事实上，<strong>当两者同时存在时，Etag / If-None-Match 的优先级要高于 Last-Modified / If-Modified-Since</strong></p>
+<p>最后，虽然说浏览器缓存对用户体验有极大的好处，但是作为开发者，我们在开发的时候则需要禁止这「讨厌」浏览器缓存，我的方法是打开浏览器的开发者工具，在 Network 中有个 Disable cache ，钩上就可以了，钩上后浏览器会忽略掉文档过期验证和服务器再验证的过程，直接向服务器请求最新的资源。<br><img src="https://user-gold-cdn.xitu.io/2018/12/15/167b1f5a6e671483?w=1240&amp;h=568&amp;f=png&amp;s=297468" alt=""></p>
+
           
         
       
