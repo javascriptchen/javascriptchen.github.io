@@ -272,6 +272,254 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="/2018/12/15/JavaScript-深入之-call-和-apply-的模拟实现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陈晨">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatar-static.segmentfault.com/401/380/4013806372-5c0c006c9d6d7_huge256">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈晨的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/15/JavaScript-深入之-call-和-apply-的模拟实现/" itemprop="url">JavaScript 深入之 call 和 apply 的模拟实现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-15T20:52:20+08:00">
+                2018-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="JavaScript-深入之-call-和-apply-的模拟实现"><a href="#JavaScript-深入之-call-和-apply-的模拟实现" class="headerlink" title="JavaScript 深入之 call 和 apply 的模拟实现"></a>JavaScript 深入之 call 和 apply 的模拟实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 第一版</span><br><span class="line">Function.prototype.call2 = function(context) &#123;</span><br><span class="line">    // 首先要获取调用call的函数，用this可以获取</span><br><span class="line">    // this的指向为bar，因为bar是Funciton的实例</span><br><span class="line">    context.fn = this;</span><br><span class="line">    context.fn();</span><br><span class="line">    // 相当于把bar挂载到foo上，所以bar可以取到value</span><br><span class="line">    delete context.fn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 测试一下</span><br><span class="line">var foo = &#123;</span><br><span class="line">    value: 1</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function bar() &#123;</span><br><span class="line">    console.log(this.value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar.call2(foo); // 1</span><br></pre></td></tr></table></figure>
+<p><strong>但是第一版不可以传递多个参数</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// 第二版</span><br><span class="line">Function.prototype.call2 = function(context) &#123;</span><br><span class="line">    context.fn = this;</span><br><span class="line">    var args = [];</span><br><span class="line">    for(var i = 1, len = arguments.length; i &lt; len; i++) &#123;</span><br><span class="line">        args.push(&apos;arguments[&apos; + i + &apos;]&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    eval(&apos;context.fn(&apos; + args +&apos;)&apos;);</span><br><span class="line">    //这里 args 会自动调用 Array.toString() 这个方法。</span><br><span class="line">    //这里eval函数输出的是：context.fn(arguments[1],arguments[2])</span><br><span class="line">    delete context.fn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 测试一下</span><br><span class="line">var foo = &#123;</span><br><span class="line">    value: 1</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function bar(name, age) &#123;</span><br><span class="line">    console.log(name)</span><br><span class="line">    console.log(age)</span><br><span class="line">    console.log(this.value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar.call2(foo, &apos;kevin&apos;, 18);</span><br><span class="line">// kevin</span><br><span class="line">// 18</span><br><span class="line">// 1</span><br></pre></td></tr></table></figure>
+<p><strong>第二版的问题是，1.this 参数可以传 null，当为 null 的时候，视为指向 window2.函数是可以有返回值的！</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">// 第三版</span><br><span class="line">Function.prototype.call2 = function (context) &#123;</span><br><span class="line">    var context = context || window;</span><br><span class="line">    context.fn = this;</span><br><span class="line"></span><br><span class="line">    var args = [];</span><br><span class="line">    for(var i = 1, len = arguments.length; i &lt; len; i++) &#123;</span><br><span class="line">        args.push(&apos;arguments[&apos; + i + &apos;]&apos;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var result = eval(&apos;context.fn(&apos; + args +&apos;)&apos;);</span><br><span class="line">    delete context.fn</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 测试一下</span><br><span class="line">var value = 2;</span><br><span class="line"></span><br><span class="line">var obj = &#123;</span><br><span class="line">    value: 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function bar(name, age) &#123;</span><br><span class="line">    console.log(this.value);</span><br><span class="line">    return &#123;</span><br><span class="line">        value: this.value,</span><br><span class="line">        name: name,</span><br><span class="line">        age: age</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar.call2(null); // 2</span><br><span class="line"></span><br><span class="line">console.log(bar.call2(obj, &apos;kevin&apos;, 18));</span><br><span class="line">// 1</span><br><span class="line">// Object &#123;</span><br><span class="line">//    value: 1,</span><br><span class="line">//    name: &apos;kevin&apos;,</span><br><span class="line">//    age: 18</span><br><span class="line">// &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>es6 版</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.call2 = function (context, ...args) &#123;</span><br><span class="line">    context = context || window</span><br><span class="line">    context.__fn__ = this</span><br><span class="line">    let result = context.__fn__(...args)</span><br><span class="line">    delete context.__fn__</span><br><span class="line">    return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>apply 的实现跟 call 类似，在这里直接给代码，代码来自于知乎 @郑航的实现：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.apply = function (context, arr) &#123;</span><br><span class="line">    var context = Object(context) || window;</span><br><span class="line">    context.fn = this;</span><br><span class="line"></span><br><span class="line">    var result;</span><br><span class="line">    if (!arr) &#123;</span><br><span class="line">        result = context.fn();</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        var args = [];</span><br><span class="line">        for (var i = 0, len = arr.length; i &lt; len; i++) &#123;</span><br><span class="line">            args.push(&apos;arr[&apos; + i + &apos;]&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">        result = eval(&apos;context.fn(&apos; + args + &apos;)&apos;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    delete context.fn</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>文章参考来源：<a href="https://github.com/mqyqingfeng/Blog/issues/11" target="_blank" rel="noopener">https://github.com/mqyqingfeng/Blog/issues/11</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="/2018/12/14/浏览器缓存机制介绍/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陈晨">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatar-static.segmentfault.com/401/380/4013806372-5c0c006c9d6d7_huge256">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈晨的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/14/浏览器缓存机制介绍/" itemprop="url">浏览器缓存机制介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-14T17:18:02+08:00">
+                2018-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="/2018/12/14/三次握手四次挥手/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -946,7 +1194,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
