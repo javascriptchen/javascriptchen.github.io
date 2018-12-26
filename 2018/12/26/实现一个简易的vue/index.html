@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="1./compiler ⽬目录是编译模版; 2./core ⽬目录是 Vue.js 的核⼼心(也是后⾯面的重点); 3./platforms ⽬目录是针对核⼼心模块的 ‘平台’ 模块; 4./server ⽬目录是处理理服务端渲染; 5./sfc ⽬目录处理理单⽂文件 .vue; 6./shared ⽬目录提供全局⽤用到的⼯工具函数。 Vue.js 的组成是由 core + 对应的 ‘平台’ 补">
+<meta name="keywords" content="前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现一个简易的vue">
+<meta property="og:url" content="/2018/12/26/实现一个简易的vue/index.html">
+<meta property="og:site_name" content="陈晨的博客">
+<meta property="og:description" content="1./compiler ⽬目录是编译模版; 2./core ⽬目录是 Vue.js 的核⼼心(也是后⾯面的重点); 3./platforms ⽬目录是针对核⼼心模块的 ‘平台’ 模块; 4./server ⽬目录是处理理服务端渲染; 5./sfc ⽬目录处理理单⽂文件 .vue; 6./shared ⽬目录提供全局⽤用到的⼯工具函数。 Vue.js 的组成是由 core + 对应的 ‘平台’ 补">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/25/167e4dc1aeb98f7d?w=2006&h=906&f=png&s=248125">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/25/167e4e4c3277b95b?w=1754&h=962&f=png&s=282381">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/25/167e4e9983a2bb1c?w=1598&h=882&f=png&s=376242">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/25/167e4f395d227c1c?w=1331&h=629&f=png&s=354107">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/25/167e4f476b7704c3?w=1322&h=863&f=png&s=514663">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/25/167e5628d501d795?w=1448&h=1050&f=png&s=328558">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/25/167e562da66ec86c?w=1484&h=1026&f=png&s=633148">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/25/167e5655db9b62fd?w=1942&h=1416&f=png&s=770576">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/26/167e872b0a3c9b6e?w=2692&h=1616&f=png&s=2037332">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/26/167e872e57d2fb75?w=1291&h=783&f=png&s=454055">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/26/167e873239090019?w=1245&h=834&f=png&s=363098">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/26/167e873708747731?w=1128&h=636&f=png&s=125588">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/26/167e874b0597ec03?w=1886&h=1282&f=png&s=673401">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/26/167e874d75d87419?w=1872&h=1268&f=png&s=479581">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/26/167e875302561d0b?w=1730&h=894&f=png&s=572293">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/26/167e87a4862bb96a?w=2468&h=1446&f=png&s=308069">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/26/167e87ba423e0cae?w=2592&h=726&f=png&s=215990">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/26/167e87ce1cbfc36d?w=2570&h=1526&f=png&s=404437">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/26/167e88037d38d1a5?w=2040&h=860&f=png&s=204825">
+<meta property="og:updated_time" content="2018-12-26T07:37:47.757Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实现一个简易的vue">
+<meta name="twitter:description" content="1./compiler ⽬目录是编译模版; 2./core ⽬目录是 Vue.js 的核⼼心(也是后⾯面的重点); 3./platforms ⽬目录是针对核⼼心模块的 ‘平台’ 模块; 4./server ⽬目录是处理理服务端渲染; 5./sfc ⽬目录处理理单⽂文件 .vue; 6./shared ⽬目录提供全局⽤用到的⼯工具函数。 Vue.js 的组成是由 core + 对应的 ‘平台’ 补">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/12/25/167e4dc1aeb98f7d?w=2006&h=906&f=png&s=248125">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="/2018/12/26/实现一个简易的vue/">
+
+
+
+
+
+  <title>实现一个简易的vue | 陈晨的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">陈晨的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Talk is cheap. Show me the code.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            menu.主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-文章列表">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            menu.文章列表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="/2018/12/26/实现一个简易的vue/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陈晨">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatar-static.segmentfault.com/401/380/4013806372-5c0c006c9d6d7_huge256">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈晨的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">实现一个简易的vue</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-26T15:37:07+08:00">
+                2018-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e4dc1aeb98f7d?w=2006&amp;h=906&amp;f=png&amp;s=248125" alt=""></p>
+<p>1./compiler ⽬目录是编译模版;</p>
+<p>2./core ⽬目录是 Vue.js 的核⼼心(也是后⾯面的重点);</p>
+<p>3./platforms ⽬目录是针对核⼼心模块的 ‘平台’ 模块;</p>
+<p>4./server ⽬目录是处理理服务端渲染;</p>
+<p>5./sfc ⽬目录处理理单⽂文件 .vue;</p>
+<p>6./shared ⽬目录提供全局⽤用到的⼯工具函数。</p>
+<p>Vue.js 的组成是由 core + 对应的 ‘平台’ 补充代码构成(独立构建和运行时构建 只是 platforms 下 web 平台的两种选择)。<br><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e4e4c3277b95b?w=1754&amp;h=962&amp;f=png&amp;s=282381" alt=""></p>
+<h3 id="vue的双向数据绑定"><a href="#vue的双向数据绑定" class="headerlink" title="vue的双向数据绑定"></a>vue的双向数据绑定</h3><p>双向绑定（响应式原理）所涉及到的技术</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. Object.defineProperty</span><br><span class="line">2. Observer</span><br><span class="line">3. Watcher</span><br><span class="line">4. Dep</span><br><span class="line">5. Directive</span><br></pre></td></tr></table></figure>
+<h4 id="1-Object-defineProperty"><a href="#1-Object-defineProperty" class="headerlink" title="1. Object.defineProperty"></a>1. Object.defineProperty</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">var a;</span><br><span class="line">Object.defineProperty(obj,&apos;a&apos;,&#123;</span><br><span class="line">  get: function()&#123;</span><br><span class="line">    console.log(&apos;get val&apos;);</span><br><span class="line">    return a;</span><br><span class="line">  &#125;,</span><br><span class="line">  set: function(newVal)&#123;</span><br><span class="line">    console.log(&apos;set val:&apos; + newVal);</span><br><span class="line">    a = newVal;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">obj.a // get val;   相当于&lt;span&gt;&#123;&#123;a&#125;&#125;&lt;/span&gt;</span><br><span class="line">obj.a = &apos;111&apos;; // set val:111  相当于&lt;input v-model=&quot;a&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e4e9983a2bb1c?w=1598&amp;h=882&amp;f=png&amp;s=376242" alt=""><br>setter 触发消息到 Watcher watcher帮忙告诉 Directive 更新DOM，DOM中修改了数据 也会通知给 Watcher，watcher 帮忙修改数据。</p>
+<h3 id="2-Observer"><a href="#2-Observer" class="headerlink" title="2. Observer"></a>2. Observer</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">观察者模式是软件设计模式的一种。</span><br><span class="line">在此种模式中，一个目标对象管理所有相依于它的观 察者对象，并且在它本身的状态改变时主动发出通知。</span><br><span class="line">这通常透过呼叫各观察者所提供的 方法来实现。此种模式通常被用来实时事件处理系统。</span><br><span class="line">订阅者模式涉及三个对象:</span><br><span class="line">发布者、主题对象、订阅者，三个对象间的是一对多的关系，</span><br><span class="line">每当主题对象状态发生改变时，其相关依赖对象都会得到通知，并被自动更新。</span><br><span class="line">看一个简单的示例:</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e4f395d227c1c?w=1331&amp;h=629&amp;f=png&amp;s=354107" alt=""></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e4f476b7704c3?w=1322&amp;h=863&amp;f=png&amp;s=514663" alt=""><br>vue里边怎么操作的呢？ vue observer</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e5628d501d795?w=1448&amp;h=1050&amp;f=png&amp;s=328558" alt=""><br><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e562da66ec86c?w=1484&amp;h=1026&amp;f=png&amp;s=633148" alt=""><br><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e5655db9b62fd?w=1942&amp;h=1416&amp;f=png&amp;s=770576" alt=""></p>
+<ol start="3">
+<li>watcher</li>
+</ol>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e872b0a3c9b6e?w=2692&amp;h=1616&amp;f=png&amp;s=2037332" alt=""></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e872e57d2fb75?w=1291&amp;h=783&amp;f=png&amp;s=454055" alt=""></p>
+<ol start="4">
+<li>Dep</li>
+</ol>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e873239090019?w=1245&amp;h=834&amp;f=png&amp;s=363098" alt=""></p>
+<ol start="5">
+<li>Directive</li>
+</ol>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e873708747731?w=1128&amp;h=636&amp;f=png&amp;s=125588" alt=""></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e874b0597ec03?w=1886&amp;h=1282&amp;f=png&amp;s=673401" alt=""><br><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e874d75d87419?w=1872&amp;h=1268&amp;f=png&amp;s=479581" alt=""></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e875302561d0b?w=1730&amp;h=894&amp;f=png&amp;s=572293" alt=""></p>
+<p>弄明白原理和架构之后，我们来实现一个简单的vue双向数据绑定</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e87a4862bb96a?w=2468&amp;h=1446&amp;f=png&amp;s=308069" alt=""></p>
+<h2 id="1-这个Vue是从哪里来的呢？"><a href="#1-这个Vue是从哪里来的呢？" class="headerlink" title="1.这个Vue是从哪里来的呢？"></a>1.这个Vue是从哪里来的呢？</h2><p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e87ba423e0cae?w=2592&amp;h=726&amp;f=png&amp;s=215990" alt=""><br>是通过上述方法实例化的一个对象；但是里边有两个未知生物 observe ？ Compile?<br><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e87ce1cbfc36d?w=2570&amp;h=1526&amp;f=png&amp;s=404437" alt=""><br><strong>observe中写的是双向绑定的核心原理就是Object.defineProperty</strong></p>
+<p>通过set，get来设置值与获取值</p>
+<p>把text属性绑定到vue实例上面去使用</p>
+<p>那其中的Dep又是什么呢？</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e88037d38d1a5?w=2040&amp;h=860&amp;f=png&amp;s=204825" alt=""><br>添加订阅者跟通知订阅更新</p>
+<p>再来看一下Compile中写的什么吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">function Compile(node, vm) &#123;</span><br><span class="line">  if (node) &#123;</span><br><span class="line">    this.$frag = this.nodeToFragment(node, vm);</span><br><span class="line">    return this.$frag;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">Compile.prototype = &#123;</span><br><span class="line">  nodeToFragment: function (node, vm) &#123;</span><br><span class="line">    var self = this;</span><br><span class="line">    var frag = document.createDocumentFragment(); // 创建一段html文档片段</span><br><span class="line">    var child;</span><br><span class="line"></span><br><span class="line">    while (child = node.firstChild) &#123;</span><br><span class="line">      self.compileElement(child, vm);</span><br><span class="line">      frag.append(child); // 将所有子节点添加到fragment中</span><br><span class="line">    &#125;</span><br><span class="line">    return frag;</span><br><span class="line">  &#125;,</span><br><span class="line">  compileElement: function (node, vm) &#123;</span><br><span class="line">    var reg = /\&#123;\&#123;(.*)\&#125;\&#125;/;</span><br><span class="line"></span><br><span class="line">    //节点类型为元素</span><br><span class="line">    if (node.nodeType === 1) &#123;</span><br><span class="line">      var attr = node.attributes;</span><br><span class="line">      // 解析属性</span><br><span class="line">      for (var i = 0; i &lt; attr.length; i++) &#123;</span><br><span class="line">        if (attr[i].nodeName == &apos;v-model&apos;) &#123;</span><br><span class="line">          var name = attr[i].nodeValue; // 获取v-model绑定的属性名</span><br><span class="line">          node.addEventListener(&apos;input&apos;, function (e) &#123;</span><br><span class="line">            // 给相应的data属性赋值，进而触发该属性的set方法</span><br><span class="line">            // 触发set vm[name]</span><br><span class="line">            vm[name] = e.target.value;</span><br><span class="line">          &#125;);</span><br><span class="line">          // node.value = vm[name]; // 将data的值赋给该node</span><br><span class="line">          new Watcher(vm, node, name, &apos;value&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    //节点类型为text</span><br><span class="line">    if (node.nodeType === 3) &#123;</span><br><span class="line">      if (reg.test(node.nodeValue)) &#123;</span><br><span class="line">        var name = RegExp.$1; // 获取匹配到的字符串</span><br><span class="line">        name = name.trim();</span><br><span class="line">        // node.nodeValue = vm[name]; // 将data的值赋给该node</span><br><span class="line">        new Watcher(vm, node, name, &apos;nodeValue&apos;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>哦，原来Compile中是渲染html的啊。其中的Watcher是不是监控节点变化，然后给Dep通知的呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">function Watcher(vm, node, name, type) &#123;</span><br><span class="line">    Dep.target = this;</span><br><span class="line">    this.name = name; //text</span><br><span class="line">    this.node = node; // 节点</span><br><span class="line">    this.vm = vm; // vue实例</span><br><span class="line">    this.type = type; //nodeValue 当前节点的值</span><br><span class="line">    this.update();</span><br><span class="line">    Dep.target = null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Watcher.prototype = &#123;</span><br><span class="line">    update: function() &#123;</span><br><span class="line">        this.get();</span><br><span class="line">        var batcher = new Batcher();</span><br><span class="line">        batcher.push(this);</span><br><span class="line">        // this.node[this.type] = this.value; // 订阅者执行相应操作</span><br><span class="line">    &#125;,</span><br><span class="line">    cb:function()&#123;</span><br><span class="line">        this.node[this.type] = this.value; // 订阅者执行相应操作</span><br><span class="line">    &#125;,</span><br><span class="line">    // 获取data的属性值</span><br><span class="line">    get: function() &#123;</span><br><span class="line">        this.value = this.vm[this.name]; //触发相应属性的get</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>哎呦，咱们猜对了呢，这样双向数据绑定马上就要完成了,只剩一个Vue.nextTick()的地方了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 批处理构造函数</span><br><span class="line"> * @constructor</span><br><span class="line"> */</span><br><span class="line">function Batcher() &#123;</span><br><span class="line">    this.reset();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 批处理重置</span><br><span class="line"> */</span><br><span class="line">Batcher.prototype.reset = function () &#123;</span><br><span class="line">    this.has = &#123;&#125;;</span><br><span class="line">    this.queue = [];</span><br><span class="line">    this.waiting = false;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 将事件添加到队列中</span><br><span class="line"> * @param job &#123;Watcher&#125; watcher事件</span><br><span class="line"> */</span><br><span class="line">Batcher.prototype.push = function (job) &#123;</span><br><span class="line">    if (!this.has[job.name]) &#123;</span><br><span class="line">        this.queue.push(job);</span><br><span class="line">        this.has[job.name] = job;</span><br><span class="line">        if (!this.waiting) &#123;</span><br><span class="line">            this.waiting = true;</span><br><span class="line">            setTimeout(() =&gt; &#123;</span><br><span class="line">                this.flush();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 执行并清空事件队列</span><br><span class="line"> */</span><br><span class="line">Batcher.prototype.flush = function () &#123;</span><br><span class="line">    this.queue.forEach((job) =&gt; &#123;</span><br><span class="line">        job.cb();</span><br><span class="line">    &#125;);</span><br><span class="line">    this.reset();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>看完后是不是觉得超简单呢？</p>
+<p>vue3版本将做出巨大的变化，把Dep跟Watcher都干掉了，html直接跟数据进行绑定，等vue3出来后，在写一篇关于vue的文章吧</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/18/DNS预读取的使用/" rel="next" title="DNS预读取的使用">
+                <i class="fa fa-chevron-left"></i> DNS预读取的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://avatar-static.segmentfault.com/401/380/4013806372-5c0c006c9d6d7_huge256" alt="陈晨">
+          <p class="site-author-name" itemprop="name">陈晨</p>
+           
+              <p class="site-description motion-element" itemprop="description">前端,js,jquery,javascript,html5</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/javascriptchen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.jianshu.com/u/6e80d0b240f5" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      简书
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://segmentfault.com/u/huansheng" target="_blank" title="SF">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      SF
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://juejin.im/user/597a13556fb9a03c524567a3" target="_blank" title="掘金">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      掘金
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#vue的双向数据绑定"><span class="nav-number">1.</span> <span class="nav-text">vue的双向数据绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Object-defineProperty"><span class="nav-number">1.1.</span> <span class="nav-text">1. Object.defineProperty</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Observer"><span class="nav-number">2.</span> <span class="nav-text">2. Observer</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#1-这个Vue是从哪里来的呢？"><span class="nav-number"></span> <span class="nav-text">1.这个Vue是从哪里来的呢？</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陈晨</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

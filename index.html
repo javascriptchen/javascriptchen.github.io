@@ -272,6 +272,169 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="/2018/12/26/实现一个简易的vue/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陈晨">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatar-static.segmentfault.com/401/380/4013806372-5c0c006c9d6d7_huge256">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈晨的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/26/实现一个简易的vue/" itemprop="url">实现一个简易的vue</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-26T15:37:07+08:00">
+                2018-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e4dc1aeb98f7d?w=2006&amp;h=906&amp;f=png&amp;s=248125" alt=""></p>
+<p>1./compiler ⽬目录是编译模版;</p>
+<p>2./core ⽬目录是 Vue.js 的核⼼心(也是后⾯面的重点);</p>
+<p>3./platforms ⽬目录是针对核⼼心模块的 ‘平台’ 模块;</p>
+<p>4./server ⽬目录是处理理服务端渲染;</p>
+<p>5./sfc ⽬目录处理理单⽂文件 .vue;</p>
+<p>6./shared ⽬目录提供全局⽤用到的⼯工具函数。</p>
+<p>Vue.js 的组成是由 core + 对应的 ‘平台’ 补充代码构成(独立构建和运行时构建 只是 platforms 下 web 平台的两种选择)。<br><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e4e4c3277b95b?w=1754&amp;h=962&amp;f=png&amp;s=282381" alt=""></p>
+<h3 id="vue的双向数据绑定"><a href="#vue的双向数据绑定" class="headerlink" title="vue的双向数据绑定"></a>vue的双向数据绑定</h3><p>双向绑定（响应式原理）所涉及到的技术</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. Object.defineProperty</span><br><span class="line">2. Observer</span><br><span class="line">3. Watcher</span><br><span class="line">4. Dep</span><br><span class="line">5. Directive</span><br></pre></td></tr></table></figure>
+<h4 id="1-Object-defineProperty"><a href="#1-Object-defineProperty" class="headerlink" title="1. Object.defineProperty"></a>1. Object.defineProperty</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">var a;</span><br><span class="line">Object.defineProperty(obj,&apos;a&apos;,&#123;</span><br><span class="line">  get: function()&#123;</span><br><span class="line">    console.log(&apos;get val&apos;);</span><br><span class="line">    return a;</span><br><span class="line">  &#125;,</span><br><span class="line">  set: function(newVal)&#123;</span><br><span class="line">    console.log(&apos;set val:&apos; + newVal);</span><br><span class="line">    a = newVal;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">obj.a // get val;   相当于&lt;span&gt;&#123;&#123;a&#125;&#125;&lt;/span&gt;</span><br><span class="line">obj.a = &apos;111&apos;; // set val:111  相当于&lt;input v-model=&quot;a&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e4e9983a2bb1c?w=1598&amp;h=882&amp;f=png&amp;s=376242" alt=""><br>setter 触发消息到 Watcher watcher帮忙告诉 Directive 更新DOM，DOM中修改了数据 也会通知给 Watcher，watcher 帮忙修改数据。</p>
+<h3 id="2-Observer"><a href="#2-Observer" class="headerlink" title="2. Observer"></a>2. Observer</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">观察者模式是软件设计模式的一种。</span><br><span class="line">在此种模式中，一个目标对象管理所有相依于它的观 察者对象，并且在它本身的状态改变时主动发出通知。</span><br><span class="line">这通常透过呼叫各观察者所提供的 方法来实现。此种模式通常被用来实时事件处理系统。</span><br><span class="line">订阅者模式涉及三个对象:</span><br><span class="line">发布者、主题对象、订阅者，三个对象间的是一对多的关系，</span><br><span class="line">每当主题对象状态发生改变时，其相关依赖对象都会得到通知，并被自动更新。</span><br><span class="line">看一个简单的示例:</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e4f395d227c1c?w=1331&amp;h=629&amp;f=png&amp;s=354107" alt=""></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e4f476b7704c3?w=1322&amp;h=863&amp;f=png&amp;s=514663" alt=""><br>vue里边怎么操作的呢？ vue observer</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e5628d501d795?w=1448&amp;h=1050&amp;f=png&amp;s=328558" alt=""><br><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e562da66ec86c?w=1484&amp;h=1026&amp;f=png&amp;s=633148" alt=""><br><img src="https://user-gold-cdn.xitu.io/2018/12/25/167e5655db9b62fd?w=1942&amp;h=1416&amp;f=png&amp;s=770576" alt=""></p>
+<ol start="3">
+<li>watcher</li>
+</ol>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e872b0a3c9b6e?w=2692&amp;h=1616&amp;f=png&amp;s=2037332" alt=""></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e872e57d2fb75?w=1291&amp;h=783&amp;f=png&amp;s=454055" alt=""></p>
+<ol start="4">
+<li>Dep</li>
+</ol>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e873239090019?w=1245&amp;h=834&amp;f=png&amp;s=363098" alt=""></p>
+<ol start="5">
+<li>Directive</li>
+</ol>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e873708747731?w=1128&amp;h=636&amp;f=png&amp;s=125588" alt=""></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e874b0597ec03?w=1886&amp;h=1282&amp;f=png&amp;s=673401" alt=""><br><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e874d75d87419?w=1872&amp;h=1268&amp;f=png&amp;s=479581" alt=""></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e875302561d0b?w=1730&amp;h=894&amp;f=png&amp;s=572293" alt=""></p>
+<p>弄明白原理和架构之后，我们来实现一个简单的vue双向数据绑定</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e87a4862bb96a?w=2468&amp;h=1446&amp;f=png&amp;s=308069" alt=""></p>
+<h2 id="1-这个Vue是从哪里来的呢？"><a href="#1-这个Vue是从哪里来的呢？" class="headerlink" title="1.这个Vue是从哪里来的呢？"></a>1.这个Vue是从哪里来的呢？</h2><p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e87ba423e0cae?w=2592&amp;h=726&amp;f=png&amp;s=215990" alt=""><br>是通过上述方法实例化的一个对象；但是里边有两个未知生物 observe ？ Compile?<br><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e87ce1cbfc36d?w=2570&amp;h=1526&amp;f=png&amp;s=404437" alt=""><br><strong>observe中写的是双向绑定的核心原理就是Object.defineProperty</strong></p>
+<p>通过set，get来设置值与获取值</p>
+<p>把text属性绑定到vue实例上面去使用</p>
+<p>那其中的Dep又是什么呢？</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/26/167e88037d38d1a5?w=2040&amp;h=860&amp;f=png&amp;s=204825" alt=""><br>添加订阅者跟通知订阅更新</p>
+<p>再来看一下Compile中写的什么吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">function Compile(node, vm) &#123;</span><br><span class="line">  if (node) &#123;</span><br><span class="line">    this.$frag = this.nodeToFragment(node, vm);</span><br><span class="line">    return this.$frag;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">Compile.prototype = &#123;</span><br><span class="line">  nodeToFragment: function (node, vm) &#123;</span><br><span class="line">    var self = this;</span><br><span class="line">    var frag = document.createDocumentFragment(); // 创建一段html文档片段</span><br><span class="line">    var child;</span><br><span class="line"></span><br><span class="line">    while (child = node.firstChild) &#123;</span><br><span class="line">      self.compileElement(child, vm);</span><br><span class="line">      frag.append(child); // 将所有子节点添加到fragment中</span><br><span class="line">    &#125;</span><br><span class="line">    return frag;</span><br><span class="line">  &#125;,</span><br><span class="line">  compileElement: function (node, vm) &#123;</span><br><span class="line">    var reg = /\&#123;\&#123;(.*)\&#125;\&#125;/;</span><br><span class="line"></span><br><span class="line">    //节点类型为元素</span><br><span class="line">    if (node.nodeType === 1) &#123;</span><br><span class="line">      var attr = node.attributes;</span><br><span class="line">      // 解析属性</span><br><span class="line">      for (var i = 0; i &lt; attr.length; i++) &#123;</span><br><span class="line">        if (attr[i].nodeName == &apos;v-model&apos;) &#123;</span><br><span class="line">          var name = attr[i].nodeValue; // 获取v-model绑定的属性名</span><br><span class="line">          node.addEventListener(&apos;input&apos;, function (e) &#123;</span><br><span class="line">            // 给相应的data属性赋值，进而触发该属性的set方法</span><br><span class="line">            // 触发set vm[name]</span><br><span class="line">            vm[name] = e.target.value;</span><br><span class="line">          &#125;);</span><br><span class="line">          // node.value = vm[name]; // 将data的值赋给该node</span><br><span class="line">          new Watcher(vm, node, name, &apos;value&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    //节点类型为text</span><br><span class="line">    if (node.nodeType === 3) &#123;</span><br><span class="line">      if (reg.test(node.nodeValue)) &#123;</span><br><span class="line">        var name = RegExp.$1; // 获取匹配到的字符串</span><br><span class="line">        name = name.trim();</span><br><span class="line">        // node.nodeValue = vm[name]; // 将data的值赋给该node</span><br><span class="line">        new Watcher(vm, node, name, &apos;nodeValue&apos;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>哦，原来Compile中是渲染html的啊。其中的Watcher是不是监控节点变化，然后给Dep通知的呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">function Watcher(vm, node, name, type) &#123;</span><br><span class="line">    Dep.target = this;</span><br><span class="line">    this.name = name; //text</span><br><span class="line">    this.node = node; // 节点</span><br><span class="line">    this.vm = vm; // vue实例</span><br><span class="line">    this.type = type; //nodeValue 当前节点的值</span><br><span class="line">    this.update();</span><br><span class="line">    Dep.target = null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Watcher.prototype = &#123;</span><br><span class="line">    update: function() &#123;</span><br><span class="line">        this.get();</span><br><span class="line">        var batcher = new Batcher();</span><br><span class="line">        batcher.push(this);</span><br><span class="line">        // this.node[this.type] = this.value; // 订阅者执行相应操作</span><br><span class="line">    &#125;,</span><br><span class="line">    cb:function()&#123;</span><br><span class="line">        this.node[this.type] = this.value; // 订阅者执行相应操作</span><br><span class="line">    &#125;,</span><br><span class="line">    // 获取data的属性值</span><br><span class="line">    get: function() &#123;</span><br><span class="line">        this.value = this.vm[this.name]; //触发相应属性的get</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>哎呦，咱们猜对了呢，这样双向数据绑定马上就要完成了,只剩一个Vue.nextTick()的地方了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 批处理构造函数</span><br><span class="line"> * @constructor</span><br><span class="line"> */</span><br><span class="line">function Batcher() &#123;</span><br><span class="line">    this.reset();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 批处理重置</span><br><span class="line"> */</span><br><span class="line">Batcher.prototype.reset = function () &#123;</span><br><span class="line">    this.has = &#123;&#125;;</span><br><span class="line">    this.queue = [];</span><br><span class="line">    this.waiting = false;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 将事件添加到队列中</span><br><span class="line"> * @param job &#123;Watcher&#125; watcher事件</span><br><span class="line"> */</span><br><span class="line">Batcher.prototype.push = function (job) &#123;</span><br><span class="line">    if (!this.has[job.name]) &#123;</span><br><span class="line">        this.queue.push(job);</span><br><span class="line">        this.has[job.name] = job;</span><br><span class="line">        if (!this.waiting) &#123;</span><br><span class="line">            this.waiting = true;</span><br><span class="line">            setTimeout(() =&gt; &#123;</span><br><span class="line">                this.flush();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 执行并清空事件队列</span><br><span class="line"> */</span><br><span class="line">Batcher.prototype.flush = function () &#123;</span><br><span class="line">    this.queue.forEach((job) =&gt; &#123;</span><br><span class="line">        job.cb();</span><br><span class="line">    &#125;);</span><br><span class="line">    this.reset();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>看完后是不是觉得超简单呢？</p>
+<p>vue3版本将做出巨大的变化，把Dep跟Watcher都干掉了，html直接跟数据进行绑定，等vue3出来后，在写一篇关于vue的文章吧</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="/2018/12/18/DNS预读取的使用/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -919,6 +1082,131 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="/2018/12/09/记录配置服务器免密登录/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陈晨">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatar-static.segmentfault.com/401/380/4013806372-5c0c006c9d6d7_huge256">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈晨的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/记录配置服务器免密登录/" itemprop="url">记录配置服务器免密登录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T01:04:30+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>首先，为什么我们要做服务器的免密登录？<br>1.自己登录服务器方便。</p>
+<p>####2.最重要是的后期配置自动化部署。<br>下面我们来了解下怎么配置服务器免密登录吧~</p>
+<h3 id="1、生成秘钥对"><a href="#1、生成秘钥对" class="headerlink" title="1、生成秘钥对"></a>1、生成秘钥对</h3><p>ssh-keygen-t rsa -C “你自己的名字” -f “你自己的名字_rsa”</p>
+<h3 id="2、上传配置公钥"><a href="#2、上传配置公钥" class="headerlink" title="2、上传配置公钥"></a>2、上传配置公钥</h3><p>上传公钥到服务器对应账号的home路径下的sh/中(ssh-copy-id -i “公钥文件名”用户名@服务器或域名)<br>配置公钥文件访问权限为600</p>
+<h3 id="3、配置本地私钥"><a href="#3、配置本地私钥" class="headerlink" title="3、配置本地私钥"></a>3、配置本地私钥</h3><p>把第一步生成的私钥复制到你的home目录下的.ssh/路径下<br>配置你的私钥文件访问权限为600<br>chmod 600 你的私钥文件名</p>
+<h3 id="4、免密登陆功能的本地配置文件"><a href="#4、免密登陆功能的本地配置文件" class="headerlink" title="4、免密登陆功能的本地配置文件"></a>4、免密登陆功能的本地配置文件</h3><p>编辑自己home目录的.ssh/路径下的 config文件<br>配置 config文件的访问权限为644<br>下面是我的config配置，登录的时候只需要输入<code>ssh www</code>即可完成登录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host www</span><br><span class="line">    HostName 10.211.55.6</span><br><span class="line">    Port 22</span><br><span class="line">    User root</span><br><span class="line">    IdentityFile  ~/.ssh/id_rsa</span><br><span class="line">    IdentitiesOnly yes</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="/2018/12/09/浏览器缓存机制介绍/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1007,131 +1295,6 @@
 <p>那么当 Last-Modified / If-Modified-Since 和 Etag / If-None-Match 同时存在是什么情况呢？</p>
 <p>事实上，<strong>当两者同时存在时，Etag / If-None-Match 的优先级要高于 Last-Modified / If-Modified-Since</strong></p>
 <p>最后，虽然说浏览器缓存对用户体验有极大的好处，但是作为开发者，我们在开发的时候则需要禁止这「讨厌」浏览器缓存，我的方法是打开浏览器的开发者工具，在 Network 中有个 Disable cache ，钩上就可以了，钩上后浏览器会忽略掉文档过期验证和服务器再验证的过程，直接向服务器请求最新的资源。<br><img src="https://user-gold-cdn.xitu.io/2018/12/15/167b1f5a6e671483?w=1240&amp;h=568&amp;f=png&amp;s=297468" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="/2018/12/09/记录配置服务器免密登录/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="陈晨">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatar-static.segmentfault.com/401/380/4013806372-5c0c006c9d6d7_huge256">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="陈晨的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/记录配置服务器免密登录/" itemprop="url">记录配置服务器免密登录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T01:04:30+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>首先，为什么我们要做服务器的免密登录？<br>1.自己登录服务器方便。</p>
-<p>####2.最重要是的后期配置自动化部署。<br>下面我们来了解下怎么配置服务器免密登录吧~</p>
-<h3 id="1、生成秘钥对"><a href="#1、生成秘钥对" class="headerlink" title="1、生成秘钥对"></a>1、生成秘钥对</h3><p>ssh-keygen-t rsa -C “你自己的名字” -f “你自己的名字_rsa”</p>
-<h3 id="2、上传配置公钥"><a href="#2、上传配置公钥" class="headerlink" title="2、上传配置公钥"></a>2、上传配置公钥</h3><p>上传公钥到服务器对应账号的home路径下的sh/中(ssh-copy-id -i “公钥文件名”用户名@服务器或域名)<br>配置公钥文件访问权限为600</p>
-<h3 id="3、配置本地私钥"><a href="#3、配置本地私钥" class="headerlink" title="3、配置本地私钥"></a>3、配置本地私钥</h3><p>把第一步生成的私钥复制到你的home目录下的.ssh/路径下<br>配置你的私钥文件访问权限为600<br>chmod 600 你的私钥文件名</p>
-<h3 id="4、免密登陆功能的本地配置文件"><a href="#4、免密登陆功能的本地配置文件" class="headerlink" title="4、免密登陆功能的本地配置文件"></a>4、免密登陆功能的本地配置文件</h3><p>编辑自己home目录的.ssh/路径下的 config文件<br>配置 config文件的访问权限为644<br>下面是我的config配置，登录的时候只需要输入<code>ssh www</code>即可完成登录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host www</span><br><span class="line">    HostName 10.211.55.6</span><br><span class="line">    Port 22</span><br><span class="line">    User root</span><br><span class="line">    IdentityFile  ~/.ssh/id_rsa</span><br><span class="line">    IdentitiesOnly yes</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1340,7 +1503,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
