@@ -112,17 +112,22 @@
 
 
 
-<meta name="description" content="前端,js,jquery,javascript,html5">
+<meta name="description" content="需求：Vue+element UI el-table下的导出当前所有数据到一个excel文件里。 先按照网上的方法，看看有哪些坑准备工作：1、安装依赖：yarn add  xlsx file-saver -S 2、在放置需要导出功能的组件中引入　　12import FileSaver from &amp;quot;file-saver&amp;quot;;import XLSX from &amp;quot;xlsx&amp;q">
 <meta name="keywords" content="前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
-<meta property="og:type" content="website">
-<meta property="og:title" content="陈晨的博客">
-<meta property="og:url" content="/page/2/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用vue导出excel遇到的那些坑">
+<meta property="og:url" content="/2019/03/14/使用vue导出excel遇到的那些坑/index.html">
 <meta property="og:site_name" content="陈晨的博客">
-<meta property="og:description" content="前端,js,jquery,javascript,html5">
+<meta property="og:description" content="需求：Vue+element UI el-table下的导出当前所有数据到一个excel文件里。 先按照网上的方法，看看有哪些坑准备工作：1、安装依赖：yarn add  xlsx file-saver -S 2、在放置需要导出功能的组件中引入　　12import FileSaver from &amp;quot;file-saver&amp;quot;;import XLSX from &amp;quot;xlsx&amp;q">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/3/14/1697c2e83a789f24?w=1860&h=266&f=png&s=74230">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/3/14/1697c2d4a7f1201a?w=1386&h=186&f=png&s=50963">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/3/14/1697c71bb373301d?w=1414&h=182&f=png&s=54247">
+<meta property="og:updated_time" content="2019-03-14T13:49:04.931Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="陈晨的博客">
-<meta name="twitter:description" content="前端,js,jquery,javascript,html5">
+<meta name="twitter:title" content="使用vue导出excel遇到的那些坑">
+<meta name="twitter:description" content="需求：Vue+element UI el-table下的导出当前所有数据到一个excel文件里。 先按照网上的方法，看看有哪些坑准备工作：1、安装依赖：yarn add  xlsx file-saver -S 2、在放置需要导出功能的组件中引入　　12import FileSaver from &amp;quot;file-saver&amp;quot;;import XLSX from &amp;quot;xlsx&amp;q">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/3/14/1697c2e83a789f24?w=1860&h=266&f=png&s=74230">
 
 
 
@@ -151,13 +156,13 @@
 
 
 
-  <link rel="canonical" href="/page/2/">
+  <link rel="canonical" href="/2019/03/14/使用vue导出excel遇到的那些坑/">
 
 
 
 
 
-  <title>陈晨的博客</title>
+  <title>使用vue导出excel遇到的那些坑 | 陈晨的博客</title>
   
 
 
@@ -182,9 +187,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -257,9 +260,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -272,7 +275,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="/2018/12/09/浏览器缓存机制介绍/">
+    <link itemprop="mainEntityOfPage" href="/2019/03/14/使用vue导出excel遇到的那些坑/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="陈晨">
@@ -289,9 +292,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/浏览器缓存机制介绍/" itemprop="url">浏览器缓存机制介绍</a></h1>
+          <h1 class="post-title" itemprop="name headline">使用vue导出excel遇到的那些坑</h1>
         
 
         <div class="post-meta">
@@ -303,8 +304,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T01:04:30+08:00">
-                2018-12-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-14T21:48:29+08:00">
+                2019-03-14
               </time>
             
 
@@ -341,28 +342,21 @@
       
 
       
-        
-          
-            <p>var foo = {<br>    value: 1<br>};</p>
-<p>function bar() {<br>    console.log(this.value);<br>}</p>
-<p>bar.call2(foo); // 1浏览器缓存究竟有什么作用呢？在这里我将浏览器缓存的作用简单地归结为以下几点。</p>
-<p>加快页面打开速度<br>降低服务器压力<br>减少网络损耗</p>
-<p>浏览器缓存有 HTML Meta 标签控制（一般不用，所以本文不介绍）与 HTTP 头信息控制两种。</p>
-<p>缓存标识字段便是 <strong>Expires</strong> 和 <strong>Cache-Control</strong>。</p>
-<p><strong>Expires  是服务器端在响应请求时用来规定资源的失效时间。</strong></p>
-<p><strong>Cache-Control 是服务器端在响应请求时用来规定资源是否需要被浏览器缓存以及缓存的有效时间等。</strong></p>
-<p>Expires 是 HTTP 1.0 的字段，而 Cache-Control  是 HTTP 1.1 的字段，<strong>当 Expires  与  Cache-Control 同时存在时，Cache-Control 的优先级要高于  Expires。</strong></p>
-<p>在浏览器缓存中，还保存了其它关于资源副本的描述字段，这些字段都是服务器返回信息头带过来的，如 <strong>Last-Modified</strong> 和 <strong>ETag</strong>。</p>
-<p>Last-Modified 是服务器端在响应请求时用来说明资源的最后修改时间。与之对应的是 If-Modified-Since 字段。在服务器再验证过程中，浏览器发送的 HTTP 请求的请求头中会带上 If-Modified-Since 字段，值为该资源  Last-Modified 属性的值。</p>
-<p>当服务器端接收到带有  If-Modified-Since 属性的请求时，则会将 If-Modified-Since 属性的值与被请求资源的最后修改时间做对比。如果相同，说明资源没有新的修改，则响应 HTTP 304，浏览器会继续使用原先保存的该资源的副本；如果最后修改时间比较新，则说明资源被修改过，则响应 HTTP 200，并且返回最新的资源。</p>
-<p>ETag 是服务器端在响应请求时用来说明资源在服务器端的唯一标识。与之对应的是 If-None-Match 字段。在服务器再验证过程中，浏览器发送的 HTTP 请求的请求头中会带上 If-Modified-Since 字段，值为该资源  Etag 属性的值。</p>
-<p>当服务器端接收到带有  If-None-Match 属性的请求时，则会将 If-None-Match 属性的值与被请求资源的唯一标识做对比。如果相同，说明资源没有新的修改，则响应 HTTP 304，浏览器会继续使用原先保存的该资源的副本；如果不同，则说明资源被修改过，则响应 HTTP 200，并且返回最新的资源。</p>
-<p>那么当 Last-Modified / If-Modified-Since 和 Etag / If-None-Match 同时存在是什么情况呢？</p>
-<p>事实上，<strong>当两者同时存在时，Etag / If-None-Match 的优先级要高于 Last-Modified / If-Modified-Since</strong></p>
-<p>最后，虽然说浏览器缓存对用户体验有极大的好处，但是作为开发者，我们在开发的时候则需要禁止这「讨厌」浏览器缓存，我的方法是打开浏览器的开发者工具，在 Network 中有个 Disable cache ，钩上就可以了，钩上后浏览器会忽略掉文档过期验证和服务器再验证的过程，直接向服务器请求最新的资源。<br><img src="https://user-gold-cdn.xitu.io/2018/12/15/167b1f5a6e671483?w=1240&amp;h=568&amp;f=png&amp;s=297468" alt=""></p>
+        <h2 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h2><p>Vue+element UI el-table下的导出当前所有数据到一个excel文件里。</p>
+<h3 id="先按照网上的方法，看看有哪些坑"><a href="#先按照网上的方法，看看有哪些坑" class="headerlink" title="先按照网上的方法，看看有哪些坑"></a>先按照网上的方法，看看有哪些坑</h3><h2 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h2><p>1、安装依赖：<code>yarn add  xlsx file-saver -S</code></p>
+<p>2、在放置需要导出功能的组件中引入<br>　　<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import FileSaver from &quot;file-saver&quot;;</span><br><span class="line">import XLSX from &quot;xlsx&quot;;</span><br></pre></td></tr></table></figure></p>
+<p>3、HTML中的设置，简单来说就是给需要导出的table标签el-table上加一个id：如outTable，对应下面的exportExcel方法中的 document.querySelector(‘#outTable‘) </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">　　 //导出当前表格</span><br><span class="line">exportCurrent:function()&#123;</span><br><span class="line">    var wb = XLSX.utils.table_to_book(document.querySelector(&apos;#outTable&apos;)) //表格id</span><br><span class="line">    var wbout = XLSX.write(wb, &#123; bookType: &apos;xlsx&apos;, bookSST: true, type: &apos;array&apos; &#125;)</span><br><span class="line">    try &#123;</span><br><span class="line">        FileSaver.saveAs(new Blob([wbout], &#123; type: &apos;application/octet-stream&apos; &#125;), &apos;sheet.xlsx&apos;)  //文件名</span><br><span class="line">    &#125; catch (e) &#123; if (typeof console !== &apos;undefined&apos;) console.log(e, wbout) &#125;</span><br><span class="line">    return wbout</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>我们来看一下原始数据</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/3/14/1697c2e83a789f24?w=1860&amp;h=266&amp;f=png&amp;s=74230" alt=""><br>接下来再来看一下导出的结果</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/3/14/1697c2d4a7f1201a?w=1386&amp;h=186&amp;f=png&amp;s=50963" alt=""><br>哎？？？我订单编号跟银行卡号咋成了科学计数法了？？</p>
+<p>还有我的时间，时分秒呢？？</p>
+<p>原因是因为数字太长了，需要使用excel的文本格式才能显示正常</p>
+<p>经过各种搜索，最终解决方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">exportExcel() &#123;</span><br><span class="line">      var xlsxParam = &#123; raw: true &#125;;//转换成excel时，使用原始的格式</span><br><span class="line">      var wb = XLSX.utils.table_to_book(document.querySelector(&quot;#outTable&quot;),xlsxParam);</span><br><span class="line">      var wbout = XLSX.write(wb, &#123;</span><br><span class="line">        bookType: &quot;xlsx&quot;,</span><br><span class="line">        bookSST: true,</span><br><span class="line">        type: &quot;array&quot;</span><br><span class="line">      &#125;);</span><br><span class="line">      try &#123;</span><br><span class="line">        FileSaver.saveAs(</span><br><span class="line">          new Blob([wbout], &#123; type: &quot;application/octet-stream;charset=utf-8&quot; &#125;),</span><br><span class="line">          &quot;sheetjs.xlsx&quot;</span><br><span class="line">        );</span><br><span class="line">      &#125; catch (e) &#123;</span><br><span class="line">        if (typeof console !== &quot;undefined&quot;) console.log(e, wbout);</span><br><span class="line">      &#125;</span><br><span class="line">      return wbout;</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+<p>再来看我们的数据</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/3/14/1697c71bb373301d?w=1414&amp;h=182&amp;f=png&amp;s=54247" alt=""><br>大功告成，如果解决了你的问题的话，可以帮我点个赞吗，谢谢了。</p>
 
-          
-        
       
     </div>
     
@@ -379,141 +373,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="/2018/12/08/十分钟完成vscode配合Eslint使用/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="陈晨">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatar-static.segmentfault.com/401/380/4013806372-5c0c006c9d6d7_huge256">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="陈晨的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/08/十分钟完成vscode配合Eslint使用/" itemprop="url">十分钟完成vscode配合Eslint使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-08T13:49:44+08:00">
-                2018-12-08
-              </time>
+              <a href="/2019/02/05/面试必问之继承/" rel="next" title="面试必问之继承">
+                <i class="fa fa-chevron-left"></i> 面试必问之继承
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h1 id="十分钟完成vscode配合Eslint使用"><a href="#十分钟完成vscode配合Eslint使用" class="headerlink" title="十分钟完成vscode配合Eslint使用"></a>十分钟完成vscode配合Eslint使用</h1><h2 id="介绍ESLint"><a href="#介绍ESLint" class="headerlink" title="介绍ESLint"></a>介绍ESLint</h2><p>ESLint 是一个代码规范和错误检查工具，有以下几个特性<br>配置好之后，在vscode编辑器中按保存自动格式化，用起来超级爽<br>检查你代码不规范的地方<br>接下来我们来使用</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>打开命令行，全局安装，适合你全部项目都需要eslint</p>
-<p><code>$ npm install -g eslint</code><br>接下去安装配置文件<br><code>$ eslint --init</code><br><img src="https://user-gold-cdn.xitu.io/2018/12/8/1678c9dadd682e69?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="截图"><br>安装VS Code<br><img src="https://user-gold-cdn.xitu.io/2018/12/8/1678c8c1f2c256f5?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="截图"><br>打开VS Code官网，点击它的下载链接即可。安装完成之后会看到如下的界面。<br><img src="https://user-gold-cdn.xitu.io/2018/12/8/1678c8c792b0eb21?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="截图"></p>
-<p>安装完毕后，打开vscode</p>
-<p>搜索插件Eslint，点击安装，安装完毕后，点击重新加载<br><img src="https://user-gold-cdn.xitu.io/2018/12/8/1678c8cb9889d3fd?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="截图"></p>
-<h2 id="配置vscode"><a href="#配置vscode" class="headerlink" title="配置vscode"></a>配置vscode</h2><p>打开User Setting</p>
-<p>一定要加入这句代码：</p>
-<p>“eslint.autoFixOnSave”: true,<br>然后就可以轻松愉快的写代码啦~</p>
-<p>如果有什么需要更改的条件，要去.eslintrc.js这个文件里面配置</p>
-<p>具体规则等遇到了再去官网查<a href="https://eslint.org/" target="_blank" rel="noopener">eslint.org/</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -523,14 +404,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -538,6 +416,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -558,8 +440,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="https://avatar-static.segmentfault.com/401/380/4013806372-5c0c006c9d6d7_huge256" alt="陈晨">
           <p class="site-author-name" itemprop="name">陈晨</p>
@@ -647,6 +538,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求："><span class="nav-number">1.</span> <span class="nav-text">需求：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先按照网上的方法，看看有哪些坑"><span class="nav-number">1.1.</span> <span class="nav-text">先按照网上的方法，看看有哪些坑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作："><span class="nav-number">2.</span> <span class="nav-text">准备工作：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -767,10 +674,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
