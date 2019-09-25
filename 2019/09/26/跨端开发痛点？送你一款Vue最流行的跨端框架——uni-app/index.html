@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="前言今天来聊一下前端必备技能——小程序开发。 从最早发布的微信小程序，到后来的支付宝小程序、字节跳动小程序、百度小程序、QQ小程序，还有最近发布的360小程序，面对这么多套的代码，开发者该如何开发呢？ 当业务要求同时在不同的端都要展现时候，针对不同的端去编写多套代码的成本显然非常高。这时候只需编写一套代码，就能够适配多端的能力就显得尤为需要。 今天就来给大家介绍一款，使用Vue的跨端框架——un">
+<meta name="keywords" content="前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
+<meta property="og:type" content="article">
+<meta property="og:title" content="跨端开发痛点？送你一款Vue最流行的跨端框架——uni-app">
+<meta property="og:url" content="/2019/09/26/跨端开发痛点？送你一款Vue最流行的跨端框架——uni-app/index.html">
+<meta property="og:site_name" content="陈晨的博客">
+<meta property="og:description" content="前言今天来聊一下前端必备技能——小程序开发。 从最早发布的微信小程序，到后来的支付宝小程序、字节跳动小程序、百度小程序、QQ小程序，还有最近发布的360小程序，面对这么多套的代码，开发者该如何开发呢？ 当业务要求同时在不同的端都要展现时候，针对不同的端去编写多套代码的成本显然非常高。这时候只需编写一套代码，就能够适配多端的能力就显得尤为需要。 今天就来给大家介绍一款，使用Vue的跨端框架——un">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/9/23/16d5c413380d9b8f?w=475&h=257&f=jpeg&s=17872">
+<meta property="og:updated_time" content="2019-09-25T16:04:57.678Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="跨端开发痛点？送你一款Vue最流行的跨端框架——uni-app">
+<meta name="twitter:description" content="前言今天来聊一下前端必备技能——小程序开发。 从最早发布的微信小程序，到后来的支付宝小程序、字节跳动小程序、百度小程序、QQ小程序，还有最近发布的360小程序，面对这么多套的代码，开发者该如何开发呢？ 当业务要求同时在不同的端都要展现时候，针对不同的端去编写多套代码的成本显然非常高。这时候只需编写一套代码，就能够适配多端的能力就显得尤为需要。 今天就来给大家介绍一款，使用Vue的跨端框架——un">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/9/23/16d5c413380d9b8f?w=475&h=257&f=jpeg&s=17872">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="/2019/09/26/跨端开发痛点？送你一款Vue最流行的跨端框架——uni-app/">
+
+
+
+
+
+  <title>跨端开发痛点？送你一款Vue最流行的跨端框架——uni-app | 陈晨的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">陈晨的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Talk is cheap. Show me the code.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-list">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            menu.list
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="/2019/09/26/跨端开发痛点？送你一款Vue最流行的跨端框架——uni-app/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陈晨">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatar-static.segmentfault.com/401/380/4013806372-5c0c006c9d6d7_huge256">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈晨的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">跨端开发痛点？送你一款Vue最流行的跨端框架——uni-app</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-26T00:04:14+08:00">
+                2019-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://user-gold-cdn.xitu.io/2019/9/23/16d5c413380d9b8f?w=475&amp;h=257&amp;f=jpeg&amp;s=17872" alt=""></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天来聊一下前端必备技能——<strong>小程序开发</strong>。</p>
+<p>从最早发布的微信小程序，到后来的支付宝小程序、字节跳动小程序、百度小程序、QQ小程序，还有最近发布的360小程序，面对这么多套的代码，开发者该如何开发呢？</p>
+<p>当业务要求同时在不同的端都要展现时候，针对不同的端去编写多套代码的成本显然非常高。<strong>这时候只需编写一套代码，就能够适配多端的能力就显得尤为需要。</strong></p>
+<p>今天就来给大家介绍一款，使用<code>Vue</code>的跨端框架——<a href="https://github.com/dcloudio/uni-app/" target="_blank" rel="noopener">uni-app</a></p>
+<h3 id="uni-app-框架简介"><a href="#uni-app-框架简介" class="headerlink" title="uni-app 框架简介"></a>uni-app 框架简介</h3><p><code>uni-app</code> 是一个使用 <code>Vue.js</code> 开发跨平台应用的前端框架，可编译到 <code>iOS</code>、<code>Android</code>、<code>H5</code>、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉）等平台。</p>
+<p>uni-app 在<strong>开发者数量、案例、跨端抹平度、扩展灵活性、性能体验、周边生态、学习成本、开发成本</strong>等 6 大关键指标上拥有极强的竞争优势：</p>
+<ul>
+<li>开发者/案例数量更多</li>
+<li>跨端抹平度/扩展灵活性(通过条件编译，调用专有能力而不影响其他平台)</li>
+<li>性能体验更优秀(<code>App</code> 端支持 <code>weex</code> 渲染，带来更流畅的用户体验。)</li>
+<li>周边生态丰富(推出<a href="https://ext.dcloud.net.cn/" target="_blank" rel="noopener">插件市场</a>，能够提供较多的组件和模板，真正做到开箱即用)</li>
+<li>学习成本低(采用<a href="https://cn.vuejs.org/v2/guide/" target="_blank" rel="noopener">Vue.js 语法</a> + <a href="https://developers.weixin.qq.com/miniprogram/dev/api/" target="_blank" rel="noopener">小程序 API</a>)</li>
+<li>开发成本低(不止开发成本，招聘、管理、测试各方面成本都大幅下降。)</li>
+</ul>
+<p>虽然不同端框架环境千变万化，无论各类<code>小程序</code>、<code>Weex</code>、<code>React-Native</code>、<code>Flutter</code>、<code>快应用</code>，它们万变不离其宗的是<code>MVVM</code>架构设计思想。<code>uni-app</code>希望既能用一套代码完成所有端需求，将相同的业务逻辑完成收敛到同一层系统里面，又不会因为项目的抽象一致导致可维护性变差。</p>
+<h3 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h3><p>通过 <a href="https://www.dcloud.io/hbuilderx.html" target="_blank" rel="noopener">HBuilderX</a> 可视化界面， <a href="https://www.dcloud.io/hbuilderx.html" target="_blank" rel="noopener">HBuilderX</a> 内置相关环境，开箱即用，无需配置 nodejs。</p>
+<h3 id="开发语言"><a href="#开发语言" class="headerlink" title="开发语言"></a>开发语言</h3><p>使用<a href="https://cn.vuejs.org/v2/guide/" target="_blank" rel="noopener">Vue.js</a> + <a href="https://developers.weixin.qq.com/miniprogram/dev/api/" target="_blank" rel="noopener">小程序 API</a>，进行开发。</p>
+<ul>
+<li><p>数据绑定及事件处理同 <code>Vue.js</code> 规范，同时补充了 <code>App</code> 及<code>页面的生命周期</code>。</p>
+</li>
+<li><p><code>uni-app</code> 帮我们把不同平台的<code>小程序API</code> 几乎都封装了 ，只需要将前缀替换为 <code>uni</code> 即可 举例说明：</p>
+</li>
+</ul>
+<p>在微信中发送 <code>request</code> 请求：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wx.request(&#123;</span><br><span class="line">  url: <span class="string">"https://www.example.com/request"</span>, <span class="comment">//仅为示例，并非真实接口地址</span></span><br><span class="line">  success: <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res.data);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在 <code>uni-app</code>中发送 <code>request</code> 请求：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">uni.request(&#123;</span><br><span class="line">  url: <span class="string">"https://www.example.com/request"</span>, <span class="comment">//仅为示例，并非真实接口地址</span></span><br><span class="line">  success: <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res.data);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>了解微信小程序的你，是不是感觉很简单呢？无非就是把 <code>wx</code> 前缀 换成了 <code>uni</code> 而已，而且<code>uni.request</code>是全端通用的 <code>ajax</code> 请求 <code>API</code> 哦，最大程度的降低开发者的学习成本。</p>
+<h3 id="如何解决跨端兼容问题"><a href="#如何解决跨端兼容问题" class="headerlink" title="如何解决跨端兼容问题"></a>如何解决跨端兼容问题</h3><p>每个平台有自己的一些特性，因此会存在一些无法跨平台的情况。</p>
+<p><code>uni-app</code> 提供了条件编译手段，在一个工程里优雅的完成了平台个性化实现。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">!</span> <span class="attr">--</span> #<span class="attr">ifdef</span> <span class="attr">MP-WEIXIN</span> <span class="attr">--</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span>&gt;</span>只会编译到微信小程序<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">!</span> <span class="attr">--</span> #<span class="attr">endif</span> <span class="attr">--</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">!</span> <span class="attr">--</span> #<span class="attr">ifdef</span> <span class="attr">APP-PLUS</span> <span class="attr">--</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span>&gt;</span>只会编译到app<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">!</span> <span class="attr">--</span> #<span class="attr">endif</span> <span class="attr">--</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="nvue-模式"><a href="#nvue-模式" class="headerlink" title="nvue 模式"></a>nvue 模式</h3><p><code>uni-app</code> 里根据编译配置不同，可以使用 <code>weex</code> 的组件，也可以使用小程序组件(即<code>uni-app</code>组件)。编写页面时页面后缀名为 <code>.nvue</code> (native vue 的缩写)</p>
+<p><code>uni-app</code> App 端内置 <code>weex</code> 渲染引擎，提供了原生渲染能力，让uni-app在App端有更好的表现。</p>
+<p>nvue 相当于给 <code>weex</code> 补充了大量 <code>uni-app</code> 的组件和 api，以及丰富的 <code>Plus API</code>、<code>Native.js</code>、原生插件。<a href="https://uniapp.dcloud.io/use-weex" target="_blank" rel="noopener">了解更多 nvue</a></p>
+<h3 id="官方-ui-库，uni-ui"><a href="#官方-ui-库，uni-ui" class="headerlink" title="官方 ui 库，uni-ui"></a>官方 ui 库，uni-ui</h3><p><code>uni-ui</code>是<code>DCloud</code>提供的一个跨端ui库，它是基于<code>vue</code>组件的、<code>flex</code> 布局的、无 <code>dom</code> 的<strong>跨全端 <code>ui</code> 库</strong>。</p>
+<p>web 开发中有的开发者习惯用一个ui库完成所有开发，但在<code>uni-app</code>体系中，推荐开发者首先使用性能更高的基础组件，然后按需引入必要的扩展组件。GitHub 地址：<a href="https://github.com/dcloudio/uni-ui" target="_blank" rel="noopener">uni-ui</a></p>
+<p>看到这里你是不是觉得特别心动了呢？别着急，让我们看一下<code>uni-app</code>的开发规范。</p>
+<h3 id="uni-app-开发规范"><a href="#uni-app-开发规范" class="headerlink" title="uni-app 开发规范"></a>uni-app 开发规范</h3><p>为了实现多端兼容，综合考虑编译速度、运行性能等因素，<code>uni-app</code> 约定了如下开发规范：</p>
+<ul>
+<li>页面文件遵循 <code>Vue</code> 单文件组件 (<code>SFC</code>) 规范</li>
+<li>组件标签靠近小程序规范，详见<code>uni-app</code> 组件规范</li>
+<li>接口能力（<code>JS API</code>）靠近微信小程序规范，但需将前缀 <code>wx</code> 替换为 <code>uni</code>，详见<code>uni-app</code>接口规范</li>
+<li>数据绑定及事件处理同 <code>Vue.js</code> 规范，同时补充了 <code>App</code> 及页面的生命周期</li>
+<li>为兼容多端运行，建议使用 <code>flex</code> 布局进行开发</li>
+</ul>
+<p><strong>关于各端的管理规则需要耐心学习</strong></p>
+<p><code>uni-app</code> 并不难学，但我们注意到很多新人在适应各个平台的规则限制时很焦躁。</p>
+<p><code>uni-app</code> 跨了很多端，虽然代码层面可以开发一次，生成多端。但注意每个端，有每个端的管理规则，这与开发无关，但每个开发者仍然要耐心掌握这些规则限制。</p>
+<ul>
+<li>比如 H5 端的浏览器有跨域限制；</li>
+<li>比如微信小程序会强制要求 <code>https</code> 链接，并且所有要联网的服务器域名都要配到微信的白名单中；</li>
+<li>比如 <code>App</code> 端，<code>iOS</code> 对隐私控制和虚拟支付控制非常严格；</li>
+<li>比如 <code>App</code> 端，<code>Android</code>、国产 <code>rom</code> 各种兼容性差异，尤其是因为谷歌服务被墙，导致的 push、定位等开发混乱的坑；</li>
+<li>如果你的 <code>App</code> 要使用三方 <code>sdk</code>，比如定位、地图、支付、推送…还要遵循他们的规则和限制；</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><strong>uni-ui 对比其他框架主要有两个优势</strong></p>
+<ul>
+<li>如何在有限前端团队人数下搞定更多平台，是需要首要考虑的原因，跨端方面<code>uni-app</code>更成熟。</li>
+<li>团队里熟悉<code>vue</code>技术栈的同学多一点，则使用<code>uni-app</code>内部培训时间短、风险低。</li>
+</ul>
+<p><strong>开发需要注意的点</strong></p>
+<ul>
+<li><p>注意各端的差异性，很多东西，h5 是对的，上真机就错了，真机好着的，换小程序就错了，不同小程序之间还有差异，总之就是考虑好不同的情况，重点是仔细阅读文档。</p>
+</li>
+<li><p>由于 uni-app 框架集成了<a href="http://www.html5plus.org/doc/h5p.html" target="_blank" rel="noopener">5+API</a>，一些需要原生功能 uniapp 也可以通过<a href="http://www.html5plus.org/doc/h5p.html" target="_blank" rel="noopener">5+API</a>去进行实现。</p>
+</li>
+<li><p>很多的坑还是因为多端不兼容，除了写起来麻烦一点，基本上都还是有可以解决的策略。</p>
+</li>
+</ul>
+<p>关于 <code>uni-app</code> 的更多信息可以参考官方文档 <a href="https://uniapp.dcloud.io/README" target="_blank" rel="noopener">uni-app - 多端开发框架</a> ，或者直接前往 <code>GitHub</code> 仓库 <a href="https://github.com/dcloudio/uni-app/" target="_blank" rel="noopener">uni-app</a> 查看 <code>uni-app</code> 文档及相关资料。欢迎前去 <code>star</code> 或是提 <code>issue</code> 哈。github地址：<a href="https://github.com/dcloudio/uni-app/" target="_blank" rel="noopener">https://github.com/dcloudio/uni-app/</a></p>
+<p>PS：我现在在写一个 ui 库，接下来我应该会写一些如何从零实现一个 ui 库方面的文章，欢迎有这方面经验的小伙伴们相互交流一下。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/10/用localStorage存储购物车数据实战/" rel="next" title="用localStorage存储购物车数据实战">
+                <i class="fa fa-chevron-left"></i> 用localStorage存储购物车数据实战
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://avatar-static.segmentfault.com/401/380/4013806372-5c0c006c9d6d7_huge256" alt="陈晨">
+          <p class="site-author-name" itemprop="name">陈晨</p>
+           
+              <p class="site-description motion-element" itemprop="description">前端,js,jquery,javascript,html5</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/javascriptchen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.jianshu.com/u/6e80d0b240f5" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      简书
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://segmentfault.com/u/huansheng" target="_blank" title="SF">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      SF
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://juejin.im/user/597a13556fb9a03c524567a3" target="_blank" title="掘金">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      掘金
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#uni-app-框架简介"><span class="nav-number">1.0.1.</span> <span class="nav-text">uni-app 框架简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发工具"><span class="nav-number">1.0.2.</span> <span class="nav-text">开发工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发语言"><span class="nav-number">1.0.3.</span> <span class="nav-text">开发语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何解决跨端兼容问题"><span class="nav-number">1.0.4.</span> <span class="nav-text">如何解决跨端兼容问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nvue-模式"><span class="nav-number">1.0.5.</span> <span class="nav-text">nvue 模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#官方-ui-库，uni-ui"><span class="nav-number">1.0.6.</span> <span class="nav-text">官方 ui 库，uni-ui</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uni-app-开发规范"><span class="nav-number">1.0.7.</span> <span class="nav-text">uni-app 开发规范</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陈晨</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
